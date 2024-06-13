@@ -18,6 +18,18 @@ $: item = data.currentItem || (data.currentDir?.items.length == 1 ? data.current
 $: title = item ? (item.path.split("/").pop() + item.ext) : "USD Assets";
 $: thumbnailPath = item ? "https://github.com/usd-wg/assets/blob/main" + "/" + item.src + "?raw=true" : "";
 
+function getNewIssueUrl() {
+    const repo = "https://github.com/needle-tools/usd-wg-assets/issues/new";
+    
+    if (!item) return repo;    
+    if (typeof navigator === "undefined") return repo;
+
+    const params = new URLSearchParams();
+    params.append("body", `### Description\n<!-- Please describe the issue you're seeing so that it can be reproduced.-->\n\n### Asset Link\n${item.filename}\n${window.location.href}\n\n### System Info\n\`\`\`${navigator.userAgent}\`\`\``);
+    params.append("title", `Issue with ${item.filename} at \`${item.path}\``);
+    return repo + "?" + params.toString();
+}
+
 </script>
 
 <svelte:head>
@@ -59,6 +71,8 @@ $: thumbnailPath = item ? "https://github.com/usd-wg/assets/blob/main" + "/" + i
             </a>
 
             {/if}
+
+            <a href={getNewIssueUrl()} target="_blank">Report an issue</a><br/>
             <a href={absoluteGithubUrl} target="_blank">View {item.filename}{item.ext} on GitHub</a><br/>
             {#if data.usdText}
             <a href="#code">View USD code</a>
