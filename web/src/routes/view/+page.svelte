@@ -20,8 +20,9 @@ function goFullscreen(event: MouseEvent & { currentTarget: EventTarget & HTMLBut
     <script src="{base}/viewer/emHdBindings.js" type="text/javascript"></script>
     <script type="module" src="{base}/viewer/index.js"></script>
     <script type="module">
-      import { init } from "/usd-wg-assets/viewer/index.js";
+      import { init } from "/viewer/index.js";
       init({
+        base: "/viewer/",
         hdrPath: '../viewer/environments/neutral.hdr',
       });
     </script>
